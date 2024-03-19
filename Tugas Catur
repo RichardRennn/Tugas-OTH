@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+void koboImaginaryChess(int i, int j, int size, int *papan) { //Fungsi untuk menandai setiap langkah
+    // Mengecek setiap kemungkinan
+    int gerak[8][2] = {{-2, -1}, {-2, 1}, {2, -1}, {2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}};
+
+    // Menandai setiap langkah
+    for (int k = 0; k < 8; k++) {
+        int temp_i = i + gerak[k][0];
+        int temp_j = j + gerak[k][1];
+
+        // Mengecek apakah posisi baru berada dalam papan
+        if (temp_i >= 0 && temp_i < size && temp_j >= 0 && temp_j < size) {
+            *(papan + temp_i * size + temp_j) = 1;
+        }
+    }
+}
+
+// Fungsi utama
+int main() {
+    int i, j;
+    scanf("%d %d", &i, &j); // Input koordinat
+    int papan[8][8] = {0}; // Declare papan catur
+    koboImaginaryChess(i, j, 8, (int *)papan); // Panggil fungsi koboImaginaryChess
+
+    for (int baris = 0; baris < 8; baris++) {  // Loop untuk mencetak papan catur yang telah ditandai
+        for (int kolom = 0; kolom < 8; kolom++) {
+            printf("%d ", papan[baris][kolom]); // Output nilai setiap posisi pada papan
+        }
+        printf("\n"); // Output baris berikutnya
+    }
+
+    return 0;
+}

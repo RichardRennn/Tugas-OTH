@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Fungsi untuk mengubah nilai kartu
+int valueKartu(char* kartu) {
+    // Jika kartu adalah ("J")
+    if (strcmp(kartu, "J") == 0) {
+        return 11; // Jika J, kembalikan 11
+    }
+    // Jika kartu adalah ("Q")
+    else if (strcmp(kartu, "Q") == 0) {
+        return 12; // Jika Q, kembalikan 12
+    }
+    // Jika kartu adalah ("K")
+    else if (strcmp(kartu, "K") == 0) {
+        return 13; // Jika K, kembalikan 13
+    }
+    //Jika kartu adalah "10"
+    else if (strcmp(kartu, "10") == 0) {
+        return 10; // Jika "10", kembalikan 10
+    }
+    // Selain kondisi diatas, konversi string menjadi integer
+    else {
+        return atoi(kartu); // Konversi string menjadi integer
+    }
+}
+
+// Fungsi untuk mengoutput tiap pertukaran
+void pertukaran(int* kartu, int n, int petukar) {
+    printf("Pertukaran %d  : ", petukar); // Cetak nomor pertukaran
+    for (int i = 0; i < n; i++) {
+        // Periksa nilai setiap kartu
+        if (kartu[i] == 11){
+            printf("J "); // Jika 11, cetak "J"
+        } else if (kartu[i] == 12){
+            printf("Q "); // Jika 12, cetak "Q"
+        } else if (kartu[i] == 13){
+            printf("K "); // Jika 13, cetak "K"
+        } else {
+            printf("%d ", kartu[i]); // Jika bukan maka, output nilai
+        }
+    }
+    printf("\n"); // Output baris kosong
+}
+
+
+int main() {
+    //Declare Variable
+    int n;
+    int tukar = 0;
+    scanf("%d", &n); // Input jumlah kartu
+    int kartu[100]; // Array untuk menyimpan nilai kartu
+    // Loop untuk membaca nilai setiap kartu
+    for (int i = 0; i < n; i++) {
+        char nilai[3]; // Array untuk menyimpan nilai kartu
+        scanf(" %s", nilai); // Input nilai kartu
+        kartu[i] = valueKartu(nilai); // Konversi dan simpan nilai kartu
+    }
+    // Loop untuk melakukan pengurutan kartu dengan metode seleksi
+    for (int i = 0; i < n; i++){
+        int min = i; // Set variable min ke indeks i
+        // Loop untuk mencari nilai minimum kartu
+        for (int j = i + 1; j < n; j++){
+            if(kartu[j] < kartu[min]){
+                min = j; // Perbarui indeks nilai minimum
+            }
+        }
+        // Jika nilai minimum bukan posisi awal, maka lakukan pertukaran
+        if (min != i){
+            int temp = kartu[i]; // Simpan nilai kartu i ke variabel temp
+            kartu[i] = kartu[min]; // Tukar nilai kartu i dengan nilai minimum
+            kartu[min] = temp; // Simpan nilai minimum di posisi i
+            tukar++; // Tambah jumlah pertukaran
+            pertukaran(kartu, n, tukar);// Panggil fungsi pertukaran untuk mencetak setiap pertukaran
+        }
+    }
+    printf("%d", tukar); // Cetak jumlah pertukaran
+    return 0;
+}
